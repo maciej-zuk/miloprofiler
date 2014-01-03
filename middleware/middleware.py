@@ -92,7 +92,7 @@ class MiloProfiler(object):
 
     def process_response(self, request, response):
         if ready is False:
-            return
+            return response
         self.rq_time_end = time.time()
         proj_prefix = settings.PROJECT_ROOT
         self.lp.disable()
