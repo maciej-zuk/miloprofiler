@@ -6,9 +6,14 @@ import pymongo
 import urls
 from django.db import models
 
+try:
+    client = pymongo.MongoClient()
+    timings_db = client.profiles.timings
+    requests_db = client.profiles.requests
+    ready = True
+except:
+    ready = False
 
-timings_db = pymongo.MongoClient().profiles.timings
-requests_db = pymongo.MongoClient().profiles.requests
 cname_re = re.compile(".*?((?:[a-z][a-z\\.\\d\\-]+)\\.(?:[a-z][a-z\\-]+))(?![\\w\\.])", re.IGNORECASE | re.DOTALL)
 
 
@@ -76,6 +81,8 @@ class MiloProfiler(object):
                     self.lp.add_function(elm)
 
     def process_request(self, request):
+        if ready is False:
+            return
         self.label2class = {}
         self.rq_time_start = time.time()
         self.lp = line_profiler.LineProfiler()
@@ -84,6 +91,8 @@ class MiloProfiler(object):
         self.lp.enable()
 
     def process_response(self, request, response):
+        if ready is False:
+            return
         self.rq_time_end = time.time()
         proj_prefix = settings.PROJECT_ROOT
         self.lp.disable()
