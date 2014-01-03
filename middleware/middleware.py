@@ -52,7 +52,7 @@ class MiloProfiler(object):
                 else:
                     self.label2class[label] = "function"
 
-            if hasattr(func, '__closure__'):
+            if hasattr(func, '__closure__') and func.__closure__:
                 for cell in func.__closure__:
                     if type(cell.cell_contents) == type:
                         for elm in self.extract_functions(cell.cell_contents):
