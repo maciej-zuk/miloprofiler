@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-3 list">
+        <h4>Requests list</h4>
+        <div class="inner">
+            <a ng-repeat="request in requests" ui-sref="requests.detail({id: request._id.$oid})" ui-sref-active="active">
+                <div class="row list-entry" ng-class-odd="'list-entry-odd'">
+                    <div class="offset col-lg-2">{{request.offset | number:'2'}}</div>
+                    <div class="col-lg-10">{{request.path}}</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-5" ui-view="details">
+    ok
+    </div>
+</div>

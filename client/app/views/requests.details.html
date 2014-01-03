@@ -1,0 +1,13 @@
+<h2>{{request.path}}</h2>
+<h4>Duration</h4>
+{{request.duration | number: "4"}} s
+<h3>Timings</h3>
+<div class="row">
+    <div class="col-lg-9"><h4>Id</h4></div>
+</div>
+<a ng-repeat="timing in request.timings" ui-sref="timings.detail({id: timing.id})">
+    <div class="row">
+        <div class="col-lg-8">{{timing.file_name}}</div>
+        <div class="col-lg-4">{{timing.classname}}:{{timing.file_function}}</div>
+    </div>
+</a>

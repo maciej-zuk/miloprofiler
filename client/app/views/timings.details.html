@@ -1,0 +1,59 @@
+<h2>
+    {{timing.file_name}}<br/>
+    <small>{{timing.classname}}:{{timing.file_function}}</small>
+</h2>
+<h3>
+    Call timing
+</h3>
+<div class="highlight">
+    <span class="row">
+        <h4>
+        <span class="col-lg-3" ui-scrollfix="+165">
+            <span class="col-lg-1">
+                rqs
+            </span>
+            <span class="col-lg-5 text-right">
+                ms
+            </span>
+            <span class="col-lg-3">
+                hits
+            </span>
+            <span class="col-lg-2">
+                lineno
+            </span>
+        </span>
+        <span class="col-lg-9">source code</span>
+        </h4>
+    </span>
+    <hr/>
+    <span class="hl-line" ng-repeat="(lineno, line) in timing.data">
+        <span class="col-lg-3 hl-info">
+            <span class="col-lg-1">
+                {{line.rqs}}
+            </span>
+            <span class="col-lg-5 text-right">
+                {{line.timing | number:"4"}}
+            </span>
+            <span class="col-lg-3">
+                {{line.hits | number:"2"}}
+            </span>
+            <span class="col-lg-2">
+                {{lineno}}
+            </span>
+            <span class="hl-details" ng-show="line.requests">
+                <div class="row">
+                    <div class="col-lg-7">Request path</div>
+                    <div class="col-lg-3 text-right">ms</div>
+                    <div class="col-lg-1 text-right">hits</div>
+                </div>
+                <div class="row" ng-repeat="request in line.requests">
+                    <div class="col-lg-7">{{request.request}}</div>
+                    <div class="col-lg-3 text-right">{{request.timing}}</div>
+                    <div class="col-lg-1 text-right">{{request.hits}}</div>
+                </div>
+            </span>
+        </span>
+        <span class="col-lg-9 hl-data" ng-bind-html="line.html">
+        </span>
+    </span>
+</div>
