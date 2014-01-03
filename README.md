@@ -18,7 +18,7 @@ In client directory:
 In server directory:
 
 * create virtual env
-* ```pip install -r reqirements.txt```
+* ```pip install -r requirements.txt```
 
 In your app directory:
 

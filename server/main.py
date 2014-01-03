@@ -96,14 +96,21 @@ class TimingsResource(restful.Resource):
                             'timing': time/1000.0
                         }
                         data[lineno]["requests"].append(rq_hit)
-                #add mean values and total requests count for line
-                for line in data.itervalues():
+
+                #add mean values and total requests count for line, place lines in order
+                lines = []
+                data_lines = list(data.items())
+                data_lines.sort()
+                for lineno, line in data_lines:
                     if line["requests"]:
                         requests = line["requests"]
                         rq_count = float(len(requests))
                         line["hits"] = sum([x['hits'] for x in requests]) / rq_count
                         line["timing"] = sum([x['timing'] for x in requests]) / rq_count
                         line["rqs"] = rq_count
+                    line["number"] = lineno
+                    lines.append(line)
+                data = lines
 
             # timings no longer needed, pushed into data
             del timing['timings']
