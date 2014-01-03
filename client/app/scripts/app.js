@@ -4,7 +4,7 @@ angular.module('miloprofilerApp', [
   'ngCookies',
   'restangular',
   'ngSanitize',
-  'ngRoute',
+  'ui.route',
   'ui.router',
   'ui.scrollfix',
 ])

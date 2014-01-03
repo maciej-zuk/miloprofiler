@@ -2,7 +2,7 @@
     <div class="col-lg-3 list">
         <h4>Requests list</h4>
         <div class="inner">
-            <a ng-repeat="request in requests" ui-sref="requests.detail({id: request._id.$oid})" ui-sref-active="active">
+            <a ng-repeat="request in requests" ui-sref="requests.detail({id: request._id.$oid})" ui-route="/requests/details/{{request._id.$oid}}" ng-class="{active:$uiRoute}">
                 <div class="row list-entry" ng-class-odd="'list-entry-odd'">
                     <div class="offset col-lg-2">{{request.offset | number:'2'}}</div>
                     <div class="col-lg-10">{{request.path}}</div>

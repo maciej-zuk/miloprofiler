@@ -139,8 +139,13 @@ class TimingsResource(restful.Resource):
             return result
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 api = restful.Api(app)
+
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 
 #add cors to reponses

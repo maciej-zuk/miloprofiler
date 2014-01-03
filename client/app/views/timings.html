@@ -8,7 +8,7 @@
                 <div class="row list-header">
                     {{timing.file_name}}
                 </div>
-                <a ng-repeat="timing_data in timing.data track by timing_data.file_lineno" ui-sref="timings.detail({id: timing_data._id.$oid})" ui-sref-active="active">
+                <a ng-repeat="timing_data in timing.data track by timing_data.file_lineno" ui-sref="timings.detail({id: timing_data._id.$oid})" ui-route="/timings/details/{{timing_data._id.$oid}}" ng-class="{active:$uiRoute}">
                     <div class="row list-entry" ng-class-odd="'list-entry-odd'">
                         <div class="offset col-lg-2">{{timing_data.file_lineno}}</div>
                         <div class="text col-lg-10"><span>{{timing_data.classname}}:{{timing_data.file_function}}</span></div>
