@@ -36,6 +36,8 @@ class MiloProfiler(object):
         for entry in urllist:
 
             func = entry.callback
+            if func is None:
+                continue
             if hasattr(func, '__code__'):
                 code = func.__code__
                 label = (code.co_filename, code.co_firstlineno, code.co_name)
@@ -45,7 +47,7 @@ class MiloProfiler(object):
                 else:
                     self.label2class[label] = "function"
 
-            if func and func.__closure__:
+            if hasattr(func, '__closure__'):
                 for cell in func.__closure__:
                     if type(cell.cell_contents) == type:
                         for elm in self.extract_functions(cell.cell_contents):

@@ -2,6 +2,8 @@
 Milo Profiler for Django
 ---
 
+Purpose of this project is to profile views and models using line by line profiler [lineprofiler](http://pythonhosted.org/line_profiler/). Milo Profiler does not display profile during page view but gathers data and stores in [Mongo](http://www.mongodb.org/) database. Those informations can be later analysed using provided client. Main pros of this way of profiling is speed and ability to see how performance varies over requests.
+
 Building steps
 ===
 
