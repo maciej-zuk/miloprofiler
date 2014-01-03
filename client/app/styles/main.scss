@@ -108,7 +108,7 @@ body {
             display: block;
             z-index: 1;
             visibility: hidden;
-            & .row div{
+            & .row div:nth-child(1){
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
