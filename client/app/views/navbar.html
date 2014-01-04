@@ -1,0 +1,9 @@
+<li ng-repeat="profile in profiles" ng-class="{active:active==profile}">
+    <a ui-sref="requests({profile: profile})">{{profile}}</a>
+</li>
+<li ui-route="/requests.*" ng-class="{active:$uiRoute}" ng-show="active">
+    <a ui-sref="requests({profile: active})" >Requests</a>
+</li>
+<li ui-route="/timings.*" ng-class="{active:$uiRoute}" ng-show="active">
+    <a ui-sref="timings({profile: active})" >Timings</a>
+</li>

@@ -23,8 +23,28 @@ class CustomHtmlFormatter(HtmlFormatter):
         return self._wrap_code(source)
 
 
+def set_profile(project_name):
+    requests_collection = mongo_client["profiles_%s" % project_name].requests
+    requests_collection.create_index([("start", pymongo.ASCENDING)])
+    timings_collection = mongo_client["profiles_%s" % project_name].timings
+    timings_collection.create_index([("file_lineno", pymongo.ASCENDING)])
+
+
+class ProfilesResource(restful.Resource):
+
+    def get(self):
+        projects_list = []
+        for db_name in mongo_client.database_names():
+            if db_name.startswith('profiles_'):
+                proj_name = db_name.split('profiles_')[-1]
+                projects_list.append(proj_name)
+        return projects_list
+
+
 class RequestsResource(restful.Resource):
-    def get(self, oid=None):
+    def get(self, profile, oid=None):
+        requests_collection = mongo_client["profiles_%s" % profile].requests
+        requests_collection.create_index([("start", pymongo.ASCENDING)])
         if oid:
             try:
                 obj_id = bson.objectid.ObjectId(oid)
@@ -40,7 +60,12 @@ class RequestsResource(restful.Resource):
 
 
 class TimingsResource(restful.Resource):
-    def get(self, oid=None):
+    def get(self, profile, oid=None):
+        requests_collection = mongo_client["profiles_%s" % profile].requests
+        requests_collection.create_index([("start", pymongo.ASCENDING)])
+        timings_collection = mongo_client["profiles_%s" % profile].timings
+        timings_collection.create_index([("file_lineno", pymongo.ASCENDING)])
+
         if oid:
             try:
                 obj_id = bson.objectid.ObjectId(oid)
@@ -156,21 +181,20 @@ def output_json(data, code, headers=None):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+
 #prepare database
-requests_collection = pymongo.MongoClient().profiles.requests
-requests_collection.create_index([("start", pymongo.ASCENDING)])
-timings_collection = pymongo.MongoClient().profiles.timings
-timings_collection.create_index([("file_lineno", pymongo.ASCENDING)])
+mongo_client = pymongo.MongoClient()
 
 #prepare pygments for future usage
 lexer = PythonLexer()
 formatter = CustomHtmlFormatter()
 
 #add resources endpoints
-api.add_resource(RequestsResource, '/requests/<string:oid>', endpoint='requests.detail')
-api.add_resource(RequestsResource, '/requests', endpoint='requests')
-api.add_resource(TimingsResource, '/timings/<string:oid>', endpoint='timings.detail')
-api.add_resource(TimingsResource, '/timings', endpoint='timings')
+api.add_resource(RequestsResource, '/requests/<string:profile>/<string:oid>', endpoint='requests.detail')
+api.add_resource(RequestsResource, '/requests/<string:profile>', endpoint='requests')
+api.add_resource(TimingsResource, '/timings/<string:profile>/<string:oid>', endpoint='timings.detail')
+api.add_resource(TimingsResource, '/timings/<string:profile>', endpoint='timings')
+api.add_resource(ProfilesResource, '/profiles', endpoint='profile')
 
 if __name__ == '__main__':
     app.run(debug=True)

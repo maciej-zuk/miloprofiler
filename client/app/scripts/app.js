@@ -8,49 +8,50 @@ angular.module('miloprofilerApp', [
   'ui.router',
   'ui.scrollfix',
 ])
-  .config(function($stateProvider, $httpProvider, RestangularProvider){
+  .config(function($urlRouterProvider, $stateProvider, RestangularProvider){
   $stateProvider
-    .state('index', {
-      url: "/",
+    .state('profiler', {
+      url: '/',
       views: {
-        "main": { template: "main" },
+        'main': { template: 'main' }
       }
     })
     .state('requests', {
-      url: "/requests",
+      url: '/requests/:profile',
       views: {
-        "main": {
-          templateUrl: "views/requests.html",
+        'main': {
+          templateUrl: 'views/requests.html',
           controller: 'RequestsCtrl'
-        },
+        }
       }
     })
     .state('requests.detail', {
-      url: "/details/:id",
+      url: '/details/:id',
       views: {
         'details': {
-          templateUrl: "views/requests.details.html",
+          templateUrl: 'views/requests.details.html',
           controller: 'RequestDetailsCtrl'
         }
       }
     })
     .state('timings', {
-      url: "/timings",
+      url: '/timings/:profile',
       views: {
-        "main": {
-          templateUrl: "views/timings.html",
+        'main': {
+          templateUrl: 'views/timings.html',
           controller: 'TimingsCtrl'
-        },
+        }
       }
     })
     .state('timings.detail', {
-      url: "/details/:id",
+      url: '/details/:id',
       views: {
         'details': {
-          templateUrl: "views/timings.details.html",
+          templateUrl: 'views/timings.details.html',
           controller: 'TimingDetailsCtrl'
         }
       }
     });
-    RestangularProvider.setBaseUrl('http://localhost:5000/');
+  $urlRouterProvider.otherwise('/');
+  RestangularProvider.setBaseUrl('http://localhost:5000/');
 });
